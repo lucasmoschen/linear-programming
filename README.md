@@ -2,22 +2,14 @@
 
 Class material with examples and exercises about Linear and Integral
 Programming, an area from Optimization. An optimization problem is, usually,
-written as 
+written as
 
-$$
-\min f(x) \text{ subject to } x \in D, 
-$$
-where $D \subset \mathbb{R}^n$ is the feasible set and $f: D \to \mathbb{R}$
-is the objective function. In this case, we are dealing with linear
-programming, so the function $f$ will be an affine function, that is, if $q
-\in \mathbb{R}^n$ and $c \in \mathbb{R}$, one can write $f(x) = q^Tx + c$ and
-$D$ will be built from linear constraints, that is, 
-$$
-Ax \le b
-$$
-where $A \in \mathbb{R}^{m\times n}$ and $b \in \mathbb{R}^m$. Here the
-inequality signal means pointwise comparison. And we can also put box
-constraints like $x \ge 0$. 
+```{math}
+minimize f(x) subject to  x em D, 
+```
+
+where D, the feasible set, is subset of n-dimensional real space and f, objective function from D to the real line.
+In this case, we are dealing with linear programming, so the  objective function will be an [affine function](https://en.wikipedia.org/wiki/Affine_transformation) and D will be built from linear constraints, that is, it will be a simplex. 
 
 Here I will put some problem sets written majorly in portuguese from this specific
 subject and solve it manually and with Julia Optimization Package
@@ -30,7 +22,7 @@ Notebook](https://jupyter.org/))
 This is based on the first chapter of [A Gentle Introduction to
 Optimization](https://www.amazon.com.br/Gentle-Introduction-Optimization-B-Guenin/dp/1107053447)
 and it's focused on modelling problems. Here we will also have constraints of
-the type $x_i$ is an integer. I could solve problems as sudoku with those
+the type x is an integer. I could solve problems as sudoku with those
 tools. 
 
 ## Pset 2 
