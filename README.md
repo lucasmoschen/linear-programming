@@ -27,4 +27,6 @@ tools.
 
 ## Pset 2 
 
+This problem set is based on the eighth chapter from [Applied Mathematical Programming](http://web.mit.edu/15.053/www/AMP.htm).
+
 ## Pset 3
