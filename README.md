@@ -17,7 +17,13 @@ subject and solve it manually and with Julia Optimization Package
 the solvers and the structure will be as a notebook ([Jupyter
 Notebook](https://jupyter.org/)) 
 
-## Pset 1 
+## Assignments 
+
+### Assignment 1 
+
+## Problem Sets
+
+### Pset 1 
 
 This is based on the first chapter of [A Gentle Introduction to
 Optimization](https://www.amazon.com.br/Gentle-Introduction-Optimization-B-Guenin/dp/1107053447)
@@ -25,8 +31,15 @@ and it's focused on modelling problems. Here we will also have constraints of
 the type x is an integer. I could solve problems as sudoku with those
 tools. 
 
-## Pset 2 
+### Pset 2 
 
-This problem set is based on the eighth chapter from [Applied Mathematical Programming](http://web.mit.edu/15.053/www/AMP.htm).
+This problem set is based on the eighth chapter from [Applied Mathematical
+Programming](http://web.mit.edu/15.053/www/AMP.htm) and the questions are
+related to the general network-flow problem. For instance, the transportation
+problem, the assignment problem and the maximum flow problem. 
 
-## Pset 3
+### Pset 3
+
+This problem set is based on the ninth chapter from [Applied Mathematical
+Programming](http://web.mit.edu/15.053/www/AMP.htm) and the questions are
+related to the integer linear programming.
