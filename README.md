@@ -42,6 +42,8 @@ set up this problem in a linear program format. We apply this idea to a
 hypothetical example and real data, with almost 200 thousand interactions from
 which we can select. We use Cbc and GLPK inside JuMP to solve this problem.
 
+See the notebook [here](https://nbviewer.jupyter.org/github/lucasmoschen/linear-programming/blob/main/assignment1/notebook.ipynb)
+
 ## Problem Sets
 
 ### Pset 1 
@@ -52,6 +54,8 @@ and it's focused on modelling problems. Here we will also have constraints of
 the type x is an integer. I could solve problems as sudoku with those
 tools. 
 
+See the notebook [here](https://nbviewer.jupyter.org/github/lucasmoschen/linear-programming/blob/main/homeworks/hw1/notebook.ipynb)
+
 ### Pset 2 
 
 This problem set is based on the eighth chapter from [Applied Mathematical
@@ -59,8 +63,12 @@ Programming](http://web.mit.edu/15.053/www/AMP.htm) and the questions are
 related to the general network-flow problem. For instance, the transportation
 problem, the assignment problem and the maximum flow problem. 
 
+See the notebook [here](https://nbviewer.jupyter.org/github/lucasmoschen/linear-programming/blob/main/homeworks/hw2/notebook.ipynb)
+
 ### Pset 3
 
 This problem set is based on the ninth chapter from [Applied Mathematical
 Programming](http://web.mit.edu/15.053/www/AMP.htm) and the questions are
 related to the integer linear programming.
+
+See the notebook [here](https://nbviewer.jupyter.org/github/lucasmoschen/linear-programming/blob/main/homeworks/hw3/notebook.ipynb)
