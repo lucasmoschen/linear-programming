@@ -44,6 +44,19 @@ which we can select. We use Cbc and GLPK inside JuMP to solve this problem.
 
 See the notebook [here](https://nbviewer.jupyter.org/github/lucasmoschen/linear-programming/blob/main/assignment1/notebook.ipynb)
 
+## Simplex Method 
+
+The simplex method is a procedure invented in the late 1940s by George Dantzig
+to solve linear programs iteratively. Within the viable space, the objective
+function is improved at each iteration. At the same time, it solves the dual
+problem, which makes it a robust algorithm. From any linear program, the first
+step is to convert to canonical form and in this format, the problem is easily
+solved.
+
+Based on [AMP, Chapter 2](http://web.mit.edu/15.053/www/AMP-Chapter-02.pdf), I
+develop this import algorithm using Python and Numpy. The code is explained in
+form of a Jupyter notebook and it can be visualized [here](https://nbviewer.jupyter.org/github/lucasmoschen/linear-programming/blob/main/simplex_method/simplex_code.ipynb).
+
 ## Problem Sets
 
 ### Pset 1 
