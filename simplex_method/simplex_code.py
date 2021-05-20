@@ -101,13 +101,16 @@ class SimplexMethod:
         some of then do not fit. 
         """
         if A_ub.shape[1] != self.n_var: 
-            raise Exception("The number of columns of A_ub must be the number of lines of c.")
+            raise Exception("The number of columns of A_ub must be the number of elements of c.")
         elif A_eq.shape[1] != self.n_var:
-            raise Exception("The number of columns of A_eq must be the number of lines of c.")
+            raise Exception("The number of columns of A_eq must be the number of elements of c.")
         elif b_ub.shape[0] != A_ub.shape[0]:
-            raise Exception("The number of lines of A_ub must be the number of lines of b_ub.")
+            raise Exception("The number of lines of A_ub must be the number of elements of b_ub.")
         elif b_eq.shape[0] != A_eq.shape[0]: 
-            raise Exception("The number of lines of A_eq must be the number of lines of b_eq.")
+            raise Exception("The number of lines of A_eq must be the number of elements of b_eq.")
+        if self.x0 is not None: 
+            if self.x0.shape[0] != self.n_var:
+                raise Exception("The number of elements in x0 must be the number of elements of c.")
 
     def _aux_free_variable(self, A_bar, A, col, i): 
         """
@@ -244,7 +247,7 @@ class SimplexMethod:
         tb = tb - np.outer(tb[:,s], tb[r,:])/a_rs
         tb[r,:] = norm_line_r
         self.basis[r] = s
-        
+
         return tb
 
     def _iteration(self,tb, phase1=False): 
@@ -303,10 +306,24 @@ class SimplexMethod:
         
         assert sum(self.x0 != 0) == self.table.shape[0] - 2
 
-        for restriction in self.basis.keys(): 
+        non_basic_variables_initial = []
+        basic_initial = list(range(len(self.x0)))
+        for restriction, basic in self.basis.items(): 
+            basic_initial.remove(basic)
+            if self.x0[basic] > 0:
+                continue
+            else: 
+                non_basic_variables_initial.append((restriction, basic))
 
-            pass
+        for variable in basic_initial:
+            basic_initial.remove(variable)
 
+        assert len(basic_initial) == len(non_basic_variables_initial)
+
+        for i in range(len(basic_initial)): 
+            tb = self._change_of_variables(tb, basic_initial[i], non_basic_variables_initial[i][0])
+
+        return tb            
 
     def _results(self, tb): 
         """
