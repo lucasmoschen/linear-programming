@@ -95,6 +95,11 @@ class SimplexMethod:
         
         self.art_pos = A.shape[1]
 
+        if self.x0 is not None: 
+            x0_bar = np.zeros(self.x0.shape[0] + A_ub.shape[0])
+            x0_bar[:self.x0.shape[0]] = self.x0
+            self.x0 = x0_bar 
+
     def _check_dimensions(self, c, A_ub, A_eq, b_ub, b_eq): 
         """
         Check the dimensions of each input. It will return an Exception if
@@ -120,6 +125,24 @@ class SimplexMethod:
         A_bar[:A.shape[0], col] = A[:,i]
         A_bar[:A.shape[0], col+1] = -A[:,i]
         return A_bar
+
+    def x0_transformations(self,l, free_variables): 
+        
+        if self.x0 is None: 
+            return
+    
+        x0_bar = np.zeros(self.x0.shape[0]+free_variables)
+        col = 0
+        for i in range(self.n_var):
+            if l[i] == -np.inf: 
+                test = 1 if self.x0[i] < 0 else 0
+                x0_bar[col+test] = abs(self.x0[i])
+                x0_bar[col+(1-test)] = 0
+                col += 2
+            else: 
+                x0_bar[col] = x0_bar[i] - l[i]
+
+        self.x0 = x0_bar   
 
     def _bounds_handler(self, bounds, c, A_ub, A_eq, b_ub, b_eq):
         """
@@ -174,6 +197,8 @@ class SimplexMethod:
                     b_ub_bar = b_ub_bar - A_ub_bar[:,col:col+1]*l[i]
                     b_eq = b_eq - A_eq[:,i:i+1]*l[i]
                     col+=1
+            # Fix x0 transformations if needed. 
+            self.x0_transformations(l, free_variables)
         return (c_bar, A_ub_bar, A_eq_bar, b_ub_bar, b_eq)
 
     def _add_slack_variables(self, A_ub, b_ub):
@@ -255,7 +280,7 @@ class SimplexMethod:
         This is an iteration of the simplex method. 
         """
         while sum(tb[-1,:-1] > 0) > 0: 
-            
+                        
             self.nit += 1
 
             s = np.argmax(tb[-1,:-1])
@@ -304,24 +329,32 @@ class SimplexMethod:
 
     def _change_basis(self, tb):
         
-        assert sum(self.x0 != 0) == self.table.shape[0] - 2
-
+        zero = []
+        non_zero = []
         non_basic_variables_initial = []
-        basic_initial = list(range(len(self.x0)))
+        for i, var in enumerate(self.x0): 
+            if var == 0: 
+                zero.append(i)
+            else: 
+                non_zero.append(i)
+
+        diff = len(self.basis) - len(non_zero)
+        i = 0
+        while diff > 0: 
+            non_zero.append(zero[i])
+            i += 1
+            diff -= 1
+
         for restriction, basic in self.basis.items(): 
-            basic_initial.remove(basic)
             if self.x0[basic] > 0:
-                continue
+                non_zero.remove(basic)
             else: 
                 non_basic_variables_initial.append((restriction, basic))
 
-        for variable in basic_initial:
-            basic_initial.remove(variable)
-
-        assert len(basic_initial) == len(non_basic_variables_initial)
-
-        for i in range(len(basic_initial)): 
-            tb = self._change_of_variables(tb, basic_initial[i], non_basic_variables_initial[i][0])
+        for i in range(len(non_zero)): 
+            if non_zero[i] ==  non_basic_variables_initial[i][0]: 
+                continue
+            tb = self._change_of_variables(tb, non_basic_variables_initial[i][0], non_zero[i])
 
         return tb            
 
@@ -393,3 +426,16 @@ class OptimizeResult:
         self.nit = nit
         
         self.result = {"x": x, "fun": fun, "slack": slack, "success": success, "message": message, "nit": nit}
+        
+
+if __name__ == '__main__': 
+
+    c = np.array([0,0,0,-1,-1,-1])
+    A_eq = np.array([[1,-2,0,1,0,0],
+                    [1,-3,-1,0,1,0],
+                    [1,1,1,0,0,1]])
+    b_eq = np.array([2,1,3])
+    model = SimplexMethod(c, A_eq = A_eq, b_eq = b_eq,x0 = np.array([2., 0., 1., 0., 0., 0.]))
+    res = model.optimize()
+    print(res.result)
+
